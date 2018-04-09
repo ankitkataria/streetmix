@@ -184,6 +184,25 @@ app.get('/assets/scripts/main.js', browserify(path.join(__dirname, '/assets/scri
   })]
 }))
 
+app.get('/assets/scripts/admin.js', browserify(path.join(__dirname, '/assets/scripts/admin.js'), {
+  cache: true,
+  precompile: true,
+  extensions: [ '.jsx' ],
+  transform: [babelify, envify({
+    APP_HOST_PORT: config.get('app_host_port'),
+    FACEBOOK_APP_ID: config.get('facebook_app_id'),
+    API_URL: config.get('restapi_proxy_baseuri_rel'),
+    TWITTER_CALLBACK_URI: config.get('twitter').oauth_callback_uri,
+    ENV: config.get('env'),
+    NO_INTERNET_MODE: config.get('no_internet_mode')
+  })]
+}))
+
+// admin login page route
+app.get('/admin', function (req, res) {
+  res.render('admin', {})
+})
+
 // SVG bundled images served directly from packages
 app.get('/assets/images/icons.svg', function (req, res) {
   res.sendFile(path.join(__dirname, '/node_modules/@streetmix/icons/dist/icons.svg'))
