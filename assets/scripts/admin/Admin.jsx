@@ -1,18 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import AdminLoginForm from './AdminLoginForm'
 
 class Admin extends React.Component {
+  static propTypes = {
+  }
+
   render () {
     return (
-      <div> Admin Component </div>
+      <div>
+        <AdminLoginForm />
+      </div>
     )
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    locale: state.locale
-  }
-}
-
-export default connect(mapStateToProps)(Admin)
+export default Admin
