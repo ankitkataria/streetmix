@@ -139,3 +139,6 @@ export const REMEMBER_USER_PROFILE = 'REMEMBER_USER_PROFILE'
 /* errors */
 export const SHOW_ERROR = 'SHOW_ERROR'
 export const HIDE_ERROR = 'HIDE_ERROR'
+
+/* admin */
+export const HANDLE_ADMIN_INPUT = 'HANDLE_ADMIN_INPUT'

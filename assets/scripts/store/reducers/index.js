@@ -17,6 +17,7 @@ import system from './system'
 import ui from './ui'
 import undo from './undo'
 import user from './user'
+import admin from './admin'
 
 const reducers = combineReducers({
   app,
@@ -36,7 +37,8 @@ const reducers = combineReducers({
   system,
   ui,
   undo,
-  user
+  user,
+  admin
 })
 
 export default reducers
