@@ -193,14 +193,7 @@ app.get('/assets/scripts/admin.js', browserify(path.join(__dirname, '/assets/scr
   cache: true,
   precompile: true,
   extensions: [ '.jsx' ],
-  transform: [babelify, envify({
-    APP_HOST_PORT: config.get('app_host_port'),
-    FACEBOOK_APP_ID: config.get('facebook_app_id'),
-    API_URL: config.get('restapi_proxy_baseuri_rel'),
-    TWITTER_CALLBACK_URI: config.get('twitter').oauth_callback_uri,
-    ENV: config.get('env'),
-    NO_INTERNET_MODE: config.get('no_internet_mode')
-  })]
+  transform: [babelify]
 }))
 
 // admin login page route

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { handleAdminInput, showAdminErrors, setAdminAuthenticated } from '../store/actions/admin'
 import axios from 'axios'
 
-class AdminLogin extends React.Component {
+class AdminLoginForm extends React.Component {
   static propTypes = {
     handleAdminInput: PropTypes.func,
     showAdminErrors: PropTypes.func,
@@ -20,6 +20,9 @@ class AdminLogin extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  /*
+    Change in Input handlers
+  */
   handleChangeInName (event) {
     this.adminName = event.target.value
   }
@@ -32,6 +35,11 @@ class AdminLogin extends React.Component {
     this.adminDOB = event.target.value
   }
 
+  /*
+    To handle the form submit event, makes post request to API and
+    sets state with the authenticated user. In case error occurs errors state is set
+    and the errors are displayed
+  */
   handleSubmit (event) {
     event.preventDefault()
 
@@ -97,4 +105,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminLogin)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLoginForm)

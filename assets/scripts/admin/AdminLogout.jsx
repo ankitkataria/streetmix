@@ -9,10 +9,13 @@ class AdminLogout extends React.Component {
     showAdminErrors: PropTypes.func
   }
 
+  /*
+    Sets the state such that Admin Component is re-rendered but this time with
+    Admin login form instead of the home page
+  */
   handleClick (e) {
     e.preventDefault()
     this.props.setAdminAuthenticated({isAuthenticated: false})
-    // removing any errors that already exist in the state
     this.props.showAdminErrors({errors: {}})
   }
 

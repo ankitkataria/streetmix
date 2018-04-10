@@ -2,6 +2,9 @@ import React from 'react'
 import AdminLogout from './AdminLogout'
 
 class AdminHome extends React.Component {
+  /*
+    Renders Admin home page with a logout button
+  */
   render () {
     return (
       <React.Fragment>

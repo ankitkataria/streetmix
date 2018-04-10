@@ -6,10 +6,14 @@ import PropTypes from 'prop-types'
 
 class Admin extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.obj
+    isAuthenticated: PropTypes.bool
   }
 
   render () {
+  /*
+     Renders the Admin Login form if User is not authenticated as Admin
+     else renders Admin home page
+  */
     if (!this.props.isAuthenticated) {
       return (
         <React.Fragment>
