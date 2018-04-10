@@ -1,9 +1,13 @@
 import React from 'react'
+import AdminLogout from './AdminLogout'
 
 class AdminHome extends React.Component {
   render () {
     return (
-      <div className="admin-home"> Admin is authenticated </div>
+      <React.Fragment>
+        <div className="admin-home"> Admin is authenticated </div>
+        <AdminLogout />
+      </React.Fragment>
     )
   }
 }
