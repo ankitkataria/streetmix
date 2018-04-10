@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { handleAdminInput } from '../store/actions/admin'
+import { handleAdminInput, showAdminErrors, setAdminAuthenticated } from '../store/actions/admin'
+import axios from 'axios'
 
 class AdminLogin extends React.Component {
   static propTypes = {
-    handleAdminInput: PropTypes.func
+    handleAdminInput: PropTypes.func,
+    showAdminErrors: PropTypes.func,
+    setAdminAuthenticated: PropTypes.func,
+    errors: PropTypes.object
   }
 
   constructor (props) {
@@ -13,9 +17,6 @@ class AdminLogin extends React.Component {
     this.adminName = ''
     this.adminEmail = ''
     this.adminDOB = ''
-    this.handleChangeInName = this.handleChangeInName.bind(this)
-    this.handleChangeInEmail = this.handleChangeInEmail.bind(this)
-    this.handleChangeInDOB = this.handleChangeInDOB.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -33,38 +34,66 @@ class AdminLogin extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    this.props.handleAdminInput({
-      adminName: this.adminName,
+
+    axios.post('/api/v1/admin', {
+      adminEmail: this.adminEmail,
       adminDOB: this.adminDOB,
-      adminEmail: this.adminEmail
+      adminName: this.adminName
+    }).then((response) => {
+      // Admin credentials validated
+      this.props.setAdminAuthenticated({isAuthenticated: true})
+      this.props.handleAdminInput({
+        adminName: this.adminName,
+        adminDOB: this.adminDOB,
+        adminEmail: this.adminEmail
+      })
+    }).catch((err) => {
+      this.props.showAdminErrors({errors: err.response})
     })
   }
 
   render () {
+    // to display errors in the login form
+    var errors
+    if (this.props.errors !== null) {
+      errors = this.props.errors.data
+    }
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" onChange={e => this.handleChangeInName(e)} />
-        </label>
-        <label>
-          Email:
-          <input type="email" onChange={e => this.handleChangeInEmail(e)} />
-        </label>
-        <label>
-          Date Of Birth:
-          <input type="date" onChange={e => this.handleChangeInDOB(e)} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <React.Fragment>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text" onChange={e => this.handleChangeInName(e)} />
+          </label>
+          <label>
+            Email:
+            <input type="email" onChange={e => this.handleChangeInEmail(e)} />
+          </label>
+          <label>
+            Date Of Birth:
+            <input type="date" onChange={e => this.handleChangeInDOB(e)} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <div className="errors"> {errors} </div>
+      </React.Fragment>
     )
+  }
+}
+
+function mapStateToProps (state) {
+  return {
+    errors: state.admin.errors
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    handleAdminInput: (formInput) => { dispatch(handleAdminInput(formInput)) }
+    handleAdminInput: (formInput) => { dispatch(handleAdminInput(formInput)) },
+    showAdminErrors: (errors) => { dispatch(showAdminErrors(errors)) },
+    setAdminAuthenticated: (authenticated) => { dispatch(setAdminAuthenticated(authenticated)) }
   }
 }
 
-export default connect(null, mapDispatchToProps)(AdminLogin)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLogin)

@@ -167,6 +167,10 @@ app.get('/api/v1/translate/:locale_code/:resource_name', resources.v1.translate.
 
 app.get('/.well-known/status', resources.well_known_status.get)
 
+// admin API routes
+app.post('/api/v1/admin', resources.v1.admin.post)
+app.get('/api/v1/admin', resources.v1.admin.get)
+
 // Process stylesheets via Sass and PostCSS / Autoprefixer
 app.use('/assets/css/styles.css', middleware.styles.get)
 
@@ -184,6 +188,7 @@ app.get('/assets/scripts/main.js', browserify(path.join(__dirname, '/assets/scri
   })]
 }))
 
+// compiling the isolated admin bundle
 app.get('/assets/scripts/admin.js', browserify(path.join(__dirname, '/assets/scripts/admin.js'), {
   cache: true,
   precompile: true,
