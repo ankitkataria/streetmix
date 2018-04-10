@@ -18,7 +18,9 @@ class AdminLogout extends React.Component {
 
   render () {
     return (
-      <button type="button" onClick={e => this.handleClick(e)}> Logout </button>
+      <button className="admin-logout-btn" onClick={e => this.handleClick(e)}>
+        Logout
+      </button>
     )
   }
 }

@@ -12,9 +12,13 @@ class Admin extends React.Component {
   render () {
     if (!this.props.isAuthenticated) {
       return (
-        <div>
+        <React.Fragment>
+          <div className="clouds-background--admin">
+            <div className="rear-clouds" />
+            <div className="front-clouds" />
+          </div>
           <AdminLoginForm />
-        </div>
+        </React.Fragment>
       )
     } else {
       return (

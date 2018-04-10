@@ -60,24 +60,25 @@ class AdminLogin extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input type="text" onChange={e => this.handleChangeInName(e)} />
-          </label>
-          <label>
-            Email:
-            <input type="email" onChange={e => this.handleChangeInEmail(e)} />
-          </label>
-          <label>
-            Date Of Birth:
-            <input type="date" onChange={e => this.handleChangeInDOB(e)} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <div className="errors"> {errors} </div>
-      </React.Fragment>
+      <form onSubmit={this.handleSubmit} className="admin-login-form">
+        <div className="street-name  admin-login-form__head" id="street-name">
+          <div className="street-name-text">Admin Login</div>
+        </div>
+        <label className="admin-login-label">
+          Name:
+          <input type="text" placeholder=" " className="admin-login-input" onChange={e => this.handleChangeInName(e)} />
+        </label>
+        <label className="admin-login-label">
+          Email:
+          <input type="email" className="admin-login-input" onChange={e => this.handleChangeInEmail(e)} />
+        </label>
+        <label className="admin-login-label">
+          Date Of Birth:
+          <input type="date" className="admin-login-input" onChange={e => this.handleChangeInDOB(e)} />
+        </label>
+        <input className="admin-login-btn" type="submit" value="Submit" />
+        <div className="admin-login-errors"> {errors} </div>
+      </form>
     )
   }
 }
