@@ -27,7 +27,6 @@ exports.post = function (req, res) {
     res.status(400).send('Could not parse body as JSON.')
     return
   }
-  console.log(body)
   AdminUser.findOne({email: body.adminEmail}, handleFindUser)
 }
 
