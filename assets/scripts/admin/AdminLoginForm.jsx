@@ -14,25 +14,39 @@ class AdminLoginForm extends React.Component {
 
   constructor (props) {
     super(props)
-    this.adminName = ''
-    this.adminEmail = ''
-    this.adminDOB = ''
+
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    /*
+      Making errors, and all the inputs controlled components
+    */
+    this.state = {
+      adminName: '',
+      adminEmail: '',
+      adminDOB: '',
+      errors: null
+    }
   }
 
   /*
     Change in Input handlers
   */
   handleChangeInName (event) {
-    this.adminName = event.target.value
+    this.setState({
+      adminName: event.target.value
+    })
   }
 
   handleChangeInEmail (event) {
-    this.adminEmail = event.target.value
+    this.setState({
+      adminEmail: event.target.value
+    })
   }
 
   handleChangeInDOB (event) {
-    this.adminDOB = event.target.value
+    this.setState({
+      adminDOB: event.target.value
+    })
   }
 
   /*
@@ -44,29 +58,29 @@ class AdminLoginForm extends React.Component {
     event.preventDefault()
 
     axios.post('/api/v1/admin', {
-      adminEmail: this.adminEmail,
-      adminDOB: this.adminDOB,
-      adminName: this.adminName
+      adminEmail: this.state.adminEmail,
+      adminDOB: this.state.adminDOB,
+      adminName: this.state.adminName
     }).then((response) => {
       // Admin credentials validated
       this.props.setAdminAuthenticated({isAuthenticated: true})
       this.props.handleAdminInput({
-        adminName: this.adminName,
-        adminDOB: this.adminDOB,
-        adminEmail: this.adminEmail
+        adminName: this.state.adminName,
+        adminDOB: this.state.adminDOB,
+        adminEmail: this.state.adminEmail
       })
     }).catch((err) => {
       this.props.showAdminErrors({errors: err.response})
     })
   }
 
-  render () {
-    // to display errors in the login form
-    var errors
-    if (this.props.errors !== null) {
-      errors = this.props.errors.data
-    }
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      errors: nextProps.errors.data
+    })
+  }
 
+  render () {
     return (
       <form onSubmit={this.handleSubmit} className="admin-login-form">
         <div className="street-name  admin-login-form__head" id="street-name">
@@ -85,7 +99,7 @@ class AdminLoginForm extends React.Component {
           <input type="date" className="admin-login-input" onChange={e => this.handleChangeInDOB(e)} />
         </label>
         <input className="admin-login-btn" type="submit" value="Submit" />
-        <div className="admin-login-errors"> {errors} </div>
+        <div className="admin-login-errors"> {this.state.errors} </div>
       </form>
     )
   }

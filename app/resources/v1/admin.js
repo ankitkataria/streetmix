@@ -2,6 +2,15 @@ var AdminUser = require('../../models/admin.js')
 var logger = require('../../../lib/logger.js')
 
 exports.post = function (req, res) {
+  /*
+    Validating User input to be valid through regular expression
+  */
+  var validateData = function (data) {
+    var emailRE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    var dateRE = /^\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$/
+    return dateRE.test(data.adminDOB) && emailRE.test(data.adminEmail)
+  }
+
   var handleFindUser = function (err, user) {
     if (err) {
       logger.error(err)
@@ -27,7 +36,10 @@ exports.post = function (req, res) {
     res.status(400).send('Could not parse body as JSON.')
     return
   }
-  AdminUser.findOne({email: body.adminEmail}, handleFindUser)
+
+  if (validateData(body)) {
+    AdminUser.findOne({email: body.adminEmail}, handleFindUser)
+  }
 }
 
 exports.get = function (req, res) {
