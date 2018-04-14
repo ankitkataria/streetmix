@@ -2,9 +2,7 @@
 import request from 'supertest'
 import express from 'express'
 import admin from '../admin'
-import AdminUser from '../../../models/admin'
-
-var mongoose = require('mongoose')
+import mockingoose from 'mockingoose'
 
 // setting up mock server and setting up mock routes
 function setupMockServer () {
@@ -17,7 +15,7 @@ function setupMockServer () {
   return app
 }
 
-// test data to be intitially inserted in the admin collection for testing
+// test data to be returned from the mocked admin model
 const user = {
   _id: 'abc',
   name: 'John Doe',
@@ -35,36 +33,11 @@ const transmission = {
 describe('/adi/v1/admin', function () {
   const app = setupMockServer()
 
-  // setting up the test database with the mock admin user before any test is executed
-  beforeAll((done) => {
-    mongoose.connect('mongodb://127.0.0.1:27017/test')
-
-    let db = mongoose.connection
-
-    db.on('error', (err) => {
-      done.fail(err)
-    })
-
-    db.once('open', () => {
-      done()
-      var newAdmin = AdminUser(user)
-      newAdmin.save()
-    })
-  })
-
-  // clearing the test databse and closing connection
-  afterAll((done) => {
-    AdminUser.remove(user, function (err, removed) {
-      if (err) {
-        done.fail(err)
-      }
-      mongoose.connection.close()
-      done()
-    })
-  })
-
   // to test if the user is a valid admin
   it('Should return 200 on valid admin data', function () {
+    // mocking AdminUser to return the user on a query of findOne`
+    mockingoose.AdminUser.toReturn(user, 'findOne')
+
     return request(app)
       .post('/api/v1/admin')
       .type('json')

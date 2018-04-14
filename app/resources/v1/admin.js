@@ -39,6 +39,8 @@ exports.post = function (req, res) {
 
   if (validateData(body)) {
     AdminUser.findOne({email: body.adminEmail}, handleFindUser)
+  } else {
+    res.status(422).send('Invalid Email or DOB format')
   }
 }
 
