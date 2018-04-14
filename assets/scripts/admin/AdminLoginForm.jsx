@@ -88,15 +88,15 @@ class AdminLoginForm extends React.Component {
         </div>
         <label className="admin-login-label">
           Name:
-          <input type="text" placeholder=" " className="admin-login-input" onChange={e => this.handleChangeInName(e)} />
+          <input type="text" placeholder=" " value={this.state.adminName} className="admin-login-input" onChange={e => this.handleChangeInName(e)} />
         </label>
         <label className="admin-login-label">
           Email:
-          <input type="email" className="admin-login-input" onChange={e => this.handleChangeInEmail(e)} />
+          <input type="email" className="admin-login-input" value={this.state.adminEmail} onChange={e => this.handleChangeInEmail(e)} />
         </label>
         <label className="admin-login-label">
           Date Of Birth:
-          <input type="date" className="admin-login-input" onChange={e => this.handleChangeInDOB(e)} />
+          <input type="date" className="admin-login-input" value={this.state.adminDOB} onChange={e => this.handleChangeInDOB(e)} />
         </label>
         <input className="admin-login-btn" type="submit" value="Submit" />
         <div className="admin-login-errors"> {this.state.errors} </div>
